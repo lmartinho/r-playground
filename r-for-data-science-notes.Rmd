@@ -68,7 +68,36 @@ ggplot(data = mpg) +
   geom_point(aes(x = class, y = drv))
 ggplot(data = mpg) +
   geom_point(aes(y = class, x = drv))
-# I consider this useful, you can how certain classes of cars have more different types of drive (there all kinds of subcompacts), compared to others (minivan only FWD) 
+# I actually consider this useful, you can see how certain classes of cars have more different types of drive (there all kinds of subcompacts), compared to others (minivan only FWD) 
 ```
 
+## 3.3 Aesthetic mappings
+
+(...) the filled shapes (21–24) have a border of colour and are filled with fill.
+
+```{r}
+# 4 variables in same data viz
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, fill = class, color = drv), shape = 21)
+```
+
+### 3.3.1 Exercises
+
+#### 1. What’s gone wrong with this code? Why are the points not blue?
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(aes(x = displ, y = hwy, color = "blue"))
+```
+
+I see the color aestetic is being provided to geom_point through a mapping. So it's interpreting "blue" not as the color blue but as a constant string blue.
+If you provide it directly to geom_point it should work better.
+
+##### 2. Which variables in mpg are categorical? Which variables are continuous? (Hint: type ?mpg to read the documentation for the dataset). How can you see this information when you run mpg?
+
+```{r}
+str(mpg)
+```
+
+I would submit that all character variables are categorical. And all num and int are continuous.
 
