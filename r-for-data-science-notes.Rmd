@@ -44,6 +44,9 @@ ggplot(data = mpg, aes(x = drv, y = hwy)) +
 summary(mpg[which(mpg$drv == '4'),]$hwy)   # 19.17
 summary(mpg[which(mpg$drv == 'f'),]$hwy) # 28.16
 summary(mpg[which(mpg$drv == 'r'),]$hwy) # 21
+# Found better way to compute in "Análise e Exploração de Dados com R" by Miguel Rocha and Pedro G. Ferreira
+tapply(mpg$hwy, mpg$drv, mean)
+# Found a better way to do it
 ?mpg # "the type of drive train, where f = front-wheel drive, r = rear wheel drive, 4 = 4wd"
 ```
 
