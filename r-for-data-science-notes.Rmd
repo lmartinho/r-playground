@@ -1,0 +1,71 @@
+---
+title: "R for Data Science notes and exercises"
+output:
+  html_document:
+    df_print: paged
+---
+
+R Markdown Notebook to follow along the "R for Data Science" book by Hadley Wickham and Garrett Grolemund. Available from https://r4ds.had.co.nz/.
+
+```{r}
+library(tidyverse)
+
+# Get a feel for the columns in the data.frame
+str(mpg)
+
+# First visualization, trying to understand correlation between mileage and displacement
+ggplot(data = mpg, aes(x = displ, y = hwy)) + 
+  geom_point()
+```
+
+### 3.2.4 Exercises
+#### 1. Run ggplot(data = mpg). What do you see?
+
+```{r}
+ggplot(data = mpg)
+```
+
+#### 2. How many rows are in mpg? How many columns?
+
+```{r}
+nrow(mpg)
+ncol(mpg)
+```
+
+#### 3. What does the drv variable describe? Read the help for ?mpg to find out.
+
+```{r}
+table(mpg$drv)
+ggplot(data = mpg, aes(x = drv)) + geom_bar()
+# Looks like 4WD, RWD, and FWD
+ggplot(data = mpg, aes(x = drv, y = hwy)) + 
+  geom_point()
+# Better mileage in FWD (which there was a better way to compute these)
+summary(mpg[which(mpg$drv == '4'),]$hwy)   # 19.17
+summary(mpg[which(mpg$drv == 'f'),]$hwy) # 28.16
+summary(mpg[which(mpg$drv == 'r'),]$hwy) # 21
+?mpg # "the type of drive train, where f = front-wheel drive, r = rear wheel drive, 4 = 4wd"
+```
+
+#### 4. Make a scatterplot of hwy vs cyl.
+
+```{r}
+ggplot(data = mpg) +
+  geom_point(aes(x = hwy, y = cyl))
+
+# Looks much better
+ggplot(data = mpg) +
+  geom_point(aes(x = cyl, y = hwy))
+```
+
+#### 5. What happens if you make a scatterplot of class vs drv? Why is the plot not useful?
+
+```{r}
+ggplot(data = mpg) +
+  geom_point(aes(x = class, y = drv))
+ggplot(data = mpg) +
+  geom_point(aes(y = class, x = drv))
+# I consider this useful, you can how certain classes of cars have more different types of drive (there all kinds of subcompacts), compared to others (minivan only FWD) 
+```
+
+
