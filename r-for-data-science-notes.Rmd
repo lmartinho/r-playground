@@ -99,5 +99,80 @@ If you provide it directly to geom_point it should work better.
 str(mpg)
 ```
 
-I would submit that all character variables are categorical. And all num and int are continuous.
+I would submit that:
+
+- manufacturer (15 levels), model (38 levels), trans (10 levels), drv (3 levels), fl (5 levels), class (7 levels) are categorical and
+
+- displ, year, cyl, cty, hwy are continuous.
+
+Considering all finite, discrete, non-sorted values as categorical.
+
+##### 3. Map a continuous variable to color, size, and shape. How do these aesthetics behave differently for categorical vs. continuous variables?
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(aes(x = displ, y = hwy, size = manufacturer))
+```
+
+Not advised to use size for discrete variable.
+
+##### 4. What happens if you map the same variable to multiple aesthetics?
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(aes(x = displ, y = hwy, size = cyl, color = cyl))
+```
+
+Not as informative
+
+##### 5. What does the stroke aesthetic do? What shapes does it work with? (Hint: use ?geom_point)
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(aes(x = displ, y = hwy, stroke = cyl, color = class))
+```
+
+Modifies the width of the border
+
+##### 6. What happens if you map an aesthetic to something other than a variable name, like aes(colour = displ < 5)? Note, you’ll also need to specify x and y.
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(aes(x = displ, y = hwy, color = displ < 5))
+```
+
+Works as expected, two colors (one for FALSE another for TRUE).
+
+#### 3.5.1 Exercises
+
+##### What happens if you facet on a continuous variable?
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(aes(x = cyl, y = hwy)) +
+  facet_wrap(~ displ)
+```
+
+It discretizes the continuous variable, and treats it as categorical.
+
+##### 2. What do the empty cells in plot with facet_grid(drv ~ cyl) mean? How do they relate to this plot?
+```{r}
+ggplot(mpg) + 
+  geom_point(aes(displ, hwy)) +
+  facet_grid(drv ~ cyl)
+```
+
+They represent missing values, e.g. we don't have data for 4-wheel-drive cars with 5 cylinders.
+
+
+##### 3. What plots does the following code make? What does . do?
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_grid(. ~ drv)
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_wrap(~drv)
+```
 
